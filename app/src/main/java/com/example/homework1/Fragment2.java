@@ -12,28 +12,41 @@ import android.widget.TextView;
 
 public class Fragment2 extends Fragment {
 
-    private String number;
+    private Integer number;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            number = savedInstanceState.getInt("number");
+        }
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("number", number);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment2, container, false);
+        return inflater.inflate(R.layout.fragment2, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         TextView textView = view.findViewById(R.id.textView);
-        if (number.charAt(number.length() - 1) % 2 == 0) {
+        if (number % 2 == 0) {
             textView.setTextColor(Color.RED);
         } else {
             textView.setTextColor(Color.BLUE);
         }
-        textView.setText(number);
-        return view;
+        textView.setText(number.toString());
     }
 
-    void setNumber(String number) {
+    void setNumber(Integer number) {
         this.number = number;
     }
 }

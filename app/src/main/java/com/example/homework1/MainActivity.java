@@ -1,15 +1,18 @@
 package com.example.homework1;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements Fragment1.FragmentActivity {
+public class MainActivity extends FragmentActivity implements Fragment1.FragmentActivity {
 
     FragmentTransaction fragmentTransaction;
     Fragment2 fragment2;
 
     @Override
+    @SuppressLint("CommitTransaction")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -23,12 +26,13 @@ public class MainActivity extends AppCompatActivity implements Fragment1.Fragmen
         this.fragmentTransaction = fragmentTransaction;
     }
 
+    @SuppressLint("CommitTransaction")
     public FragmentTransaction getFragmentTransaction() {
         if (fragment2.isAdded()) return null;
         return getSupportFragmentManager().beginTransaction();
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         fragment2.setNumber(number);
     }
 
