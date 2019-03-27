@@ -138,22 +138,17 @@ public class Fragment1 extends Fragment implements ItemClickListener {
 
     @Override
     public void onItemClick(View view, int i) {
-        FragmentTransaction fragmentTransaction = fragmentActivity.getFragmentTransaction();
-        if (fragmentTransaction != null) {
-            Fragment2 fragment2 = fragmentActivity.getFragment2();
+        if (!fragmentActivity.isAdded()) {
             fragmentActivity.setNumber(i + 1);
-            fragmentTransaction.add(R.id.fragment1, fragment2).addToBackStack(null).commitAllowingStateLoss();
-            fragmentActivity.setFragmentTransaction(fragmentTransaction);
+            fragmentActivity.openFragment2();
         }
     }
 
     public interface FragmentActivity {
-        void setFragmentTransaction(FragmentTransaction setFragmentTransaction);
-
-        FragmentTransaction getFragmentTransaction();
+        boolean isAdded();
 
         void setNumber(Integer number);
 
-        Fragment2 getFragment2();
+        void openFragment2();
     }
 }
