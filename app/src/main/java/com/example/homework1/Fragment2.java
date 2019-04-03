@@ -1,6 +1,5 @@
 package com.example.homework1;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,12 +11,14 @@ import android.widget.TextView;
 
 public class Fragment2 extends Fragment {
 
-    private Integer number;
+    private String number;
+    private int color;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            number = savedInstanceState.getInt("number");
+            number = savedInstanceState.getString("number");
+            color = savedInstanceState.getInt("color");
         }
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
@@ -26,7 +27,8 @@ public class Fragment2 extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("number", number);
+        outState.putString("number", number);
+        outState.putInt("color", color);
     }
 
     @Nullable
@@ -38,15 +40,12 @@ public class Fragment2 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         TextView textView = view.findViewById(R.id.textView);
-        if (number % 2 == 0) {
-            textView.setTextColor(Color.RED);
-        } else {
-            textView.setTextColor(Color.BLUE);
-        }
-        textView.setText(number.toString());
+        textView.setText(number);
+        textView.setTextColor(color);
     }
 
-    void setNumber(Integer number) {
+    void setNumberAndColor(String number, int color) {
         this.number = number;
+        this.color = color;
     }
 }

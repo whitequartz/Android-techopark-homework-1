@@ -22,6 +22,7 @@ public class Fragment1 extends Fragment implements ItemClickListener {
     private int count = 100;
     private RecyclerView recyclerView;
     private FragmentActivity fragmentActivity;
+    final private ArrayList<String> data = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +40,6 @@ public class Fragment1 extends Fragment implements ItemClickListener {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        final ArrayList<String> data = new ArrayList<>();
         for (int i = 1; i <= count; i++) {
             data.add(String.valueOf(i));
         }
@@ -67,6 +67,13 @@ public class Fragment1 extends Fragment implements ItemClickListener {
         outState.putInt("count", count);
     }
 
+    public static int getColor(String number) {
+        if (number.charAt(number.length() - 1) % 2 == 0) {
+            return Color.RED;
+        }
+        return Color.BLUE;
+    }
+
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         private List<String> mData;
@@ -86,13 +93,9 @@ public class Fragment1 extends Fragment implements ItemClickListener {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-            String data = mData.get(i);
-            myViewHolder.mTextView.setText(data);
-            if (data.charAt(data.length() - 1) % 2 == 0) {
-                myViewHolder.mTextView.setTextColor(Color.RED);
-            } else {
-                myViewHolder.mTextView.setTextColor(Color.BLUE);
-            }
+            String number = mData.get(i);
+            myViewHolder.mTextView.setText(number);
+            myViewHolder.mTextView.setTextColor(getColor(number));
         }
 
         @Override
@@ -137,16 +140,16 @@ public class Fragment1 extends Fragment implements ItemClickListener {
 
     @Override
     public void onItemClick(View view, int i) {
-        if (!fragmentActivity.isAdded()) {
-            fragmentActivity.setNumber(i + 1);
+        if (!fragmentActivity.isAddedFragment2()) {
+            fragmentActivity.setNumberAndColor(data.get(i), getColor(data.get(i)));
             fragmentActivity.openFragment2();
         }
     }
 
     public interface FragmentActivity {
-        boolean isAdded();
+        boolean isAddedFragment2();
 
-        void setNumber(Integer number);
+        void setNumberAndColor(String number, int color);
 
         void openFragment2();
     }
